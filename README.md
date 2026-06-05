@@ -6,8 +6,8 @@ BidSmart is an AI Auction Intelligence platform for serious collectors. It predi
 
 This repository is split into two main sections:
 
-- **/frontend**: Next.js application built with App Router, Tailwind CSS, and Framer Motion. Contains the landing page, UI components, and client-side logic.
-- **/backend**: Express.js API that serves predictions, comparable sales, and bidding strategies.
+- **/frontend**: Next.js application built with App Router, Tailwind CSS, & Framer Motion. Contains the landing page, UI components, and client-side logic.
+- **/backend**: Express.js API that serves predictions, comparable sales, & bidding strategies.
 
 ## Documentation
 
@@ -26,8 +26,8 @@ npm run dev
 ```
 
 ### Backend
-```bash
+'''bash
 cd backend
 npm install
 npm run dev
-```
+'''
