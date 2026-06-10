@@ -1,0 +1,9 @@
+{
+  "name": "@bidsmart/config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "typecheck": "echo 'No typecheck for config package'"
+  }
+}

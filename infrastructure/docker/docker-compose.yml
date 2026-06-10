@@ -1,0 +1,58 @@
+version: "3.9"
+
+name: bidsmart
+
+services:
+  # ── PostgreSQL 16 ────────────────────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: bidsmart_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bidsmart
+      POSTGRES_PASSWORD: bidsmart_secret
+      POSTGRES_DB: bidsmart_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts/01_enable_extensions.sql:/docker-entrypoint-initdb.d/01_enable_extensions.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bidsmart -d bidsmart_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── Redis 7 ──────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: bidsmart_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── MailHog (local email testing) ─────────────────────────────────────────────
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: bidsmart_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    logging:
+      driver: "none"  # suppress noisy MailHog logs
+
+volumes:
+  postgres_data:
+    name: bidsmart_postgres_data
+  redis_data:
+    name: bidsmart_redis_data
