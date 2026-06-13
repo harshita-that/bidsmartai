@@ -12,6 +12,7 @@ interface AuthState {
   
   login: (credentials: any) => Promise<void>;
   register: (data: any) => Promise<void>;
+  googleLogin: (idToken: string) => Promise<void>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
   checkAuth: () => Promise<void>;
@@ -43,6 +44,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await apiClient.post<{ user: UserProfile; tokens: AuthTokens }>('/auth/register', data);
+      Cookies.set('accessToken', response.tokens.accessToken, { expires: 1/24 });
+      Cookies.set('refreshToken', response.tokens.refreshToken, { expires: 30 });
+      set({ user: response.user, isAuthenticated: true, isLoading: false });
+    } catch (error: any) {
+      set({ error: error.message, isLoading: false, isAuthenticated: false });
+      throw error;
+    }
+  },
+
+  googleLogin: async (idToken: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await apiClient.post<{ user: UserProfile; tokens: AuthTokens }>('/auth/oauth/google', { idToken });
       Cookies.set('accessToken', response.tokens.accessToken, { expires: 1/24 });
       Cookies.set('refreshToken', response.tokens.refreshToken, { expires: 30 });
       set({ user: response.user, isAuthenticated: true, isLoading: false });

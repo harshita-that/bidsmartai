@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 
 import { useAuthStore } from '@/lib/store/auth';
+import { useGoogleAuth } from '@/hooks/useGoogleAuth';
 import { Input } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
@@ -30,8 +31,23 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { register: registerUser } = useAuthStore();
+  const { register: registerUser, googleLogin } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleGoogleSuccess = useCallback(async (idToken: string) => {
+    try {
+      await googleLogin(idToken);
+      toast.success('Account created successfully!');
+      router.push('/dashboard');
+    } catch (err: any) {
+      toast.error(err.message || 'Google sign-up failed');
+    }
+  }, [googleLogin, router]);
+
+  const { triggerGoogleSignIn } = useGoogleAuth({
+    onSuccess: handleGoogleSuccess,
+    onError: (error) => toast.error(error),
+  });
 
   const {
     register,
@@ -134,7 +150,7 @@ export default function RegisterPage() {
             <div className="flex-1 h-px bg-white/10" />
           </div>
           <button
-            onClick={() => toast.info('Google OAuth coming soon')}
+            onClick={triggerGoogleSignIn}
             className="w-full mt-6 flex items-center justify-center gap-3 px-4 py-3 rounded-sm border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
           >
             <svg width="18" height="18" viewBox="0 0 24 24">
