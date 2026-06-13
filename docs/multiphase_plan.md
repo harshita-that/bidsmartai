@@ -16,9 +16,9 @@ gantt
     Landing Page (DONE)           :done, p0, 2026-06-01, 2026-06-05
 
     section Phase 1
-    Project Foundation            :active, p1a, 2026-06-06, 5d
-    Auth System                   :p1b, after p1a, 5d
-    Dashboard Shell               :p1c, after p1b, 4d
+    Project Foundation (DONE)     :done, p1a, 2026-06-06, 5d
+    Auth System (DONE)            :done, p1b, after p1a, 5d
+    Dashboard Shell (DONE)        :done, p1c, after p1b, 4d
 
     section Phase 2
     eBay Data Ingestion           :p2a, after p1c, 6d
@@ -57,8 +57,8 @@ gantt
 | Phase | Name | Focus | Duration | Key Deliverables | Status |
 |-------|------|-------|----------|-----------------|--------|
 | **0** | **Landing Page** | Marketing & first impression | 1 week | Hero, value prop, sample prediction, pricing preview, waitlist CTA | ✅ Done |
-| **1** | **Foundation & Auth** | Monorepo, infra, auth system, dashboard shell | 2 weeks | Project scaffold, DB schema, auth (email + Google OAuth), dashboard layout | 🔜 Next |
-| **2** | **Data & Predictions** | eBay ingestion, ML model, core lookup | 3 weeks | Data pipeline, price prediction model, link-based lookup feature |  |
+| **1** | **Foundation & Auth** | Monorepo, infra, auth system, dashboard shell | 2 weeks | Project scaffold, DB schema, auth (email + Google OAuth), dashboard layout, deployment | ✅ Done |
+| **2** | **Data & Predictions** | eBay ingestion, ML model, core lookup | 3 weeks | Data pipeline, price prediction model, link-based lookup feature | 🔜 Next |
 | **3** | **Intelligence Layer** | Bidding strategy, comps, search | 2 weeks | Strategy engine, comparable sales, search & discovery |  |
 | **4** | **Monetization** | Stripe integration, tier system, pricing | 1.5 weeks | Subscriptions, tier enforcement, pricing page |  |
 | **5** | **Engagement** | Watchlist, alerts, photo lookup | 2 weeks | Watchlist with alerts, image-based item identification |  |
@@ -73,8 +73,8 @@ gantt
 
 ```mermaid
 graph LR
-    P0["Phase 0<br/>Landing Page<br/>✅ DONE"] --> P1["Phase 1<br/>Foundation & Auth"]
-    P1 --> P2["Phase 2<br/>Data & Predictions"]
+    P0["Phase 0<br/>Landing Page<br/>✅ DONE"] --> P1["Phase 1<br/>Foundation & Auth<br/>✅ DONE"]
+    P1 --> P2["Phase 2<br/>Data & Predictions<br/>🔜 NEXT"]
     P2 --> P3["Phase 3<br/>Intelligence Layer"]
     P3 --> P4["Phase 4<br/>Monetization"]
     P4 --> P5["Phase 5<br/>Engagement"]
@@ -82,8 +82,8 @@ graph LR
     P6 --> P7["Phase 7<br/>Scale & Launch"]
 
     style P0 fill:#2d7a3a,stroke:#4ade80,color:#fff
-    style P1 fill:#6c5ce7,stroke:#a29bfe,color:#fff
-    style P2 fill:#6c5ce7,stroke:#a29bfe,color:#fff
+    style P1 fill:#2d7a3a,stroke:#4ade80,color:#fff
+    style P2 fill:#e67e22,stroke:#f39c12,color:#fff
     style P3 fill:#6c5ce7,stroke:#a29bfe,color:#fff
     style P4 fill:#6c5ce7,stroke:#a29bfe,color:#fff
     style P5 fill:#6c5ce7,stroke:#a29bfe,color:#fff
@@ -117,22 +117,28 @@ graph LR
 
 | Deliverable | Description |
 |-------------|-------------|
-| **Hero Section** | Headline, tagline, animated value proposition |
-| **How It Works** | 3-step visual flow (paste link → get prediction → bid smart) |
-| **Sample Prediction** | Interactive mock prediction card showing price range, confidence, strategy |
-| **Features Grid** | 6 core features with icons and descriptions |
-| **Pricing Preview** | Free / Pro / Dealer tier comparison table |
-| **Social Proof** | Testimonial cards and stats (placeholder) |
-| **CTA / Waitlist** | Email signup for early access |
-| **Footer** | Links, legal, social media |
-| **Responsive** | Mobile-first, fully responsive |
-| **Dark Mode** | Dark-first design with design system tokens |
+| **Hero Section** | Three.js particle scene, morphing blobs, wireframe torus knot, staggered text reveal |
+| **Ticker** | Dual-direction CSS marquee with live predictions |
+| **Stats** | 4 animated count-up stats (94%, 2.4M, $680, 12s) |
+| **How It Works** | 3-step feature cards with GlassCard + Badge |
+| **Product Preview** | Live Rolex Submariner prediction mockup with animated confidence bar |
+| **Categories** | 12-category grid + 6 supported platforms |
+| **Pricing** | Free ($0) vs Pro ($29/mo) comparison |
+| **Testimonials** | 3 testimonial cards with scattered layout |
+| **CTA / Waitlist** | Split emerald/burgundy background, Supabase email form |
+| **Footer** | 3-column with product links, legal, socials |
+| **Custom Cursor** | Dot + ring with lerp follow and hover scale-up |
+| **Noise Overlay** | SVG fractalNoise at 3.5% opacity |
 
 ### Tech Delivered
-- Next.js 14 project initialized (App Router)
-- CSS design system with custom properties (tokens.css)
-- Landing page components
+- Next.js 13.5 project (App Router)
+- Tailwind CSS with custom design system (obsidian/onyx/emerald/burgundy/champagne/ivory)
+- Cormorant Garamond, Instrument Sans, JetBrains Mono typography
+- Three.js hero scene with @react-three/fiber
+- Framer Motion animations throughout
+- shadcn/ui component library configured
 - Vercel deployment configured
+- Supabase integration for waitlist
 
 ---
 
