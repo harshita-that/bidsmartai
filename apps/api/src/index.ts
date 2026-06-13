@@ -16,11 +16,17 @@ const app = express();
 app.use(helmet());
 
 // CORS
-const allowedOrigins = (process.env['CORS_ORIGINS'] ?? 'http://localhost:3000').split(',');
+const allowedOrigins = (process.env['CORS_ORIGINS'] ?? 'http://localhost:3000')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+logger.info({ allowedOrigins }, 'CORS allowed origins');
 app.use(
   cors({
     origin: (origin, cb) => {
+      // Allow requests with no origin (server-to-server, health checks)
       if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      logger.warn({ origin, allowedOrigins }, 'CORS rejected origin');
       cb(new Error(`CORS: origin ${origin} not allowed`));
     },
     credentials: true,

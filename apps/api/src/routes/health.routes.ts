@@ -21,10 +21,12 @@ healthRouter.get('/', async (_req: Request, res: Response) => {
       checkDbConnection(),
       new Promise<{ ok: false }>((resolve) => setTimeout(() => resolve({ ok: false }), 3000)),
     ]),
-    Promise.race([
-      redis.ping().then(() => true).catch(() => false),
-      new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 3000)),
-    ]),
+    redis
+      ? Promise.race([
+          redis.ping().then(() => true).catch(() => false),
+          new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 3000)),
+        ])
+      : Promise.resolve(false),
   ]);
 
   const allHealthy = dbCheck.ok && redisPing;
