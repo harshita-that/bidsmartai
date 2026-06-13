@@ -11,12 +11,18 @@ const config: Config = {
     extend: {
       colors: {
         obsidian: '#0A0A0B',
+        onyx: {
+          dark: '#0E0E10',
+          mid: '#1A1A1C',
+          light: '#28282C',
+        },
         emerald: {
           deep: '#0D3B2E',
           mid: '#1A5C46',
           bright: '#2ECC8F',
         },
         burgundy: {
+          dark: '#1A0610',
           deep: '#2D0A14',
           mid: '#6B1A2A',
           bright: '#C0392B',
